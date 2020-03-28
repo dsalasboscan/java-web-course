@@ -3,7 +3,9 @@ package com.educacionit.model;
 public enum Action {
   UPDATE("update"),
   CREATE("create"),
-  DELETE("delete");
+  DELETE("delete"),
+  FILTER("filter"),
+  LIST("list");
 
   private String value;
 

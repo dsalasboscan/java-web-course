@@ -1,7 +1,7 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<table class="table table-striped fixed-top">
+<table class="table table-striped">
     <thead class="thead-dark">
         <tr>
             <th>Nombre</th>
@@ -23,7 +23,17 @@
     </tbody>
 </table>
 
-<!-- Agregar cliente MODAL -->
-<a href="${pageContext.request.contextPath}/clientes?action=create" type="button" class="btn btn-dark">Crear Usuario</button>
+<a href="${pageContext.request.contextPath}/clientes?action=create" type="button" class="btn btn-dark">Crear Usuario</a>
+
+</br>
+</br>
+
+<form action="${pageContext.request.contextPath}/clientes?action=filter" method="POST">
+    <div class="form-group">
+        <label for="filtrar">Filtrar cliente por apellido</label>
+        <input type="text" class="form-control" name="filter">
+    </div>
+    <button class="btn btn-dark" type="submit">Filtrar</button>
+</form>
 
                         

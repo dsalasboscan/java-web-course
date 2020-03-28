@@ -1,18 +1,33 @@
 package com.educacionit.service;
 
 import com.educacionit.dao.ClienteDao;
+import com.educacionit.dao.ClienteFileDao;
+import com.educacionit.dao.ClienteSqlDao;
 import com.educacionit.model.Cliente;
+import com.educacionit.model.DaoStrategy;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ClienteService {
 
   private ClienteDao clienteDao;
 
-  public ClienteService() {
-    clienteDao = new ClienteDao();
+  public ClienteService(DaoStrategy daoStrategy) {
+
+    // Seleccionar base de datos a utilizar
+    switch (daoStrategy) {
+      case SQL:
+        clienteDao = new ClienteSqlDao();
+        break;
+      case FILE:
+        clienteDao = new ClienteFileDao();
+        break;
+    }
   }
 
   public Cliente getCliente(long id) {
@@ -30,7 +45,7 @@ public class ClienteService {
     clienteDao.insert(cliente);
   }
 
-  public void update(HttpServletRequest request) {
+  public void update(HttpServletRequest request) throws FileNotFoundException {
     Cliente cliente = clienteDao.getById(Long.parseLong(request.getParameter("idCliente")));
     String nombre = request.getParameter("nombre");
     String apellido = request.getParameter("apellido");
@@ -48,7 +63,20 @@ public class ClienteService {
   }
 
   public List<Cliente> getAll() {
-    return clienteDao.getClientes();
+    return this.getAll(null);
+  }
+
+  public List<Cliente> getAll(String filter) {
+    List<Cliente> clientes;
+    if (filter == null || filter.isEmpty()) {
+      clientes = clienteDao.getClientes();
+    } else {
+      clientes = clienteDao.getClientes().stream()
+              .filter(c -> c.getApellido().equalsIgnoreCase(filter))
+              .collect(Collectors.toList());
+    }
+
+    return clientes;
   }
 
 }

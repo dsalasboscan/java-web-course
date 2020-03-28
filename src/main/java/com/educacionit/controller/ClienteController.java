@@ -2,6 +2,7 @@ package com.educacionit.controller;
 
 import com.educacionit.model.Action;
 import com.educacionit.model.Cliente;
+import com.educacionit.model.DaoStrategy;
 import com.educacionit.service.ClienteService;
 
 import javax.servlet.ServletException;
@@ -19,7 +20,7 @@ public class ClienteController extends HttpServlet {
   private ClienteService clienteService;
 
   public ClienteController() {
-    clienteService = new ClienteService();
+    clienteService = new ClienteService(DaoStrategy.SQL);
   }
 
   @Override
@@ -52,20 +53,30 @@ public class ClienteController extends HttpServlet {
   protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
     Action action = Action.valueOfLabel(req.getParameter("action"));
 
-    if (action != null) {
-      switch (action) {
-        case UPDATE:
-          clienteService.update(req);
-          break;
-        case CREATE:
-          clienteService.save(req);
-          break;
-        default:
-          listarClientes(req, resp);
-      }
-    }
+    if (action == null) action = Action.LIST;
 
-    listarClientes(req, resp);
+    switch (action) {
+      case UPDATE:
+        clienteService.update(req);
+        listarClientes(req, resp);
+        break;
+      case CREATE:
+        clienteService.save(req);
+        listarClientes(req, resp);
+        break;
+      case FILTER:
+        String filter = req.getParameter("filter");
+
+        List<Cliente> clientes = clienteService.getAll(filter);
+
+        HttpSession sesion = req.getSession();
+        sesion.setAttribute("clientes", clientes);
+        req.getRequestDispatcher("/WEB-INF/paginas/clientes.jsp").forward(req, resp);
+        break;
+      default:
+        listarClientes(req, resp);
+        break;
+    }
   }
 
   private void listarClientes(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {

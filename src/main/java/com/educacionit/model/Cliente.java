@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class Cliente implements Serializable {
-	private long id;
+	private Long id;
 	private String nombre;
 	private String apellido;
 	private String email;
@@ -19,11 +19,11 @@ public class Cliente implements Serializable {
 		this.fechaCreacion = new Date();
 	}
 
-	public long getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -103,7 +103,18 @@ public class Cliente implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Cliente [id=" + id + ", nombre=" + nombre + ", apellido=" + apellido + ", fechaCreacion="
-				+ fechaCreacion + "]";
+		StringBuilder stringBuilder = new StringBuilder();
+
+		final String SEPARADOR = ",";
+
+		stringBuilder.append(id);
+		stringBuilder.append(SEPARADOR);
+		stringBuilder.append(nombre);
+		stringBuilder.append(SEPARADOR);
+		stringBuilder.append(apellido);
+		stringBuilder.append(SEPARADOR);
+		stringBuilder.append(email);
+
+		return stringBuilder.toString();
 	}
 }

@@ -29,6 +29,6 @@
         </form>
 
         </br></br>
-        <a href="${pageContext.request.contextPath}/clientes" type="button" class="btn btn-dark">Ir al inicio</button>
+        <a href="${pageContext.request.contextPath}/clientes" type="button" class="btn btn-dark">Ir al inicio</a>
     </body>
 </html>
