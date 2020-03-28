@@ -102,7 +102,18 @@ public class Cliente {
 
 	@Override
 	public String toString() {
-		return "Cliente [id=" + id + ", nombre=" + nombre + ", apellido=" + apellido + ", fechaCreacion="
-				+ fechaCreacion + "]";
+		StringBuilder stringBuilder = new StringBuilder();
+
+		final String SEPARADOR = ",";
+
+		stringBuilder.append(id);
+		stringBuilder.append(SEPARADOR);
+		stringBuilder.append(nombre);
+		stringBuilder.append(SEPARADOR);
+		stringBuilder.append(apellido);
+		stringBuilder.append(SEPARADOR);
+		stringBuilder.append(email);
+
+		return stringBuilder.toString();
 	}
 }

@@ -24,3 +24,14 @@
 </table>
 
 <a href="${pageContext.request.contextPath}/clientes?action=create" type="button" class="btn btn-dark">Crear Usuario</a>
+
+</br>
+</br>
+
+<form action="${pageContext.request.contextPath}/clientes?action=filter" method="POST">
+    <div class="form-group">
+        <label for="filtrar">Filtrar cliente por apellido</label>
+        <input type="text" class="form-control" name="filter">
+    </div>
+    <button class="btn btn-dark" type="submit">Filtrar</button>
+</form>
